@@ -9,25 +9,6 @@ const validate_login = require("../validations/user_validations");
 
 dotenv.config();
 
-// //verification code
-// const createverifcationcode = () => {
-//   return Math.floor(1000 + Math.random()* 9000).toString()
-// };
-
-// //verification token
-// const createverificationtoken = async () => {
-//   return new Promise((resolve, reject) => {
-//     crypto.randomBytes(32,(err, buffer) => {
-//       if (err){
-//         reject(err);
-//       } else {
-//         const token = buffer.toString('hex');
-//         console.log('created verfication token', token);
-//         resolve(token);
-//       }
-//     });
-//   });
-// };
 
 const create = async (req, res) => {
   try {
@@ -41,6 +22,7 @@ const create = async (req, res) => {
       address,
       type,
       description,
+      service_type_id
     } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,6 +37,7 @@ const create = async (req, res) => {
       address,
       type,
       description,
+      service_type_id
     });
 
     // //jwt token
@@ -75,10 +58,7 @@ const create = async (req, res) => {
   }
 };
 
-// const verficationToken = await createverificationtoken();
-// console.log(verficationToken);
-// await T
-// update user
+
 
 const update = async (req, res) => {
   try {
@@ -150,7 +130,7 @@ const logIn = async (req, res) => {
   try {
     
     if(!user) throw new Error(messege)
-    
+
     const token = jwt.sign({ user }, process.env.JWT_SECRET);
 
     const { user_name, number, country, city, address, type } = user;

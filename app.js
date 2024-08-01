@@ -6,6 +6,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 const userRouter = require("./routes/userroute");
+const serviceroute = require('./routes/serviceroute')
 const cors = require("cors");
 
 const corsOption = {
@@ -23,3 +24,5 @@ app.listen(port, () => {
 app.use(express.json());
 
 app.use("/user", userRouter);
+
+app.use("/service", serviceroute);
