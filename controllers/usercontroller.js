@@ -148,9 +148,14 @@ const logIn = async (req, res) => {
 
 const get_workers = async (req, res) => {
   try {
+    const { service_type_id } = req.query;
+
     const workers = await User.findAll({
       attributes: { exclude: ["password"] },
-      where: { type: "Worker" },
+      where: {
+        type: "Worker",
+        ...(service_type_id && { service_type_id }),
+      },
     });
 
     if (workers.length == 0) throw new Error("there are no workers");
