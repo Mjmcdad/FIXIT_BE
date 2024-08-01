@@ -5,10 +5,9 @@ const dotenv = require("dotenv");
 const sendVerEmail = require("../Emailver");
 const crypto = require("crypto");
 const Token = require("../models/tokens");
-const validate_login = require("../validations/user_validations");
+const { validate_login } = require("../validations/user_validations");
 
 dotenv.config();
-
 
 const create = async (req, res) => {
   try {
@@ -22,7 +21,7 @@ const create = async (req, res) => {
       address,
       type,
       description,
-      service_type_id
+      service_type_id,
     } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,7 +36,7 @@ const create = async (req, res) => {
       address,
       type,
       description,
-      service_type_id
+      service_type_id,
     });
 
     // //jwt token
@@ -57,8 +56,6 @@ const create = async (req, res) => {
     });
   }
 };
-
-
 
 const update = async (req, res) => {
   try {
@@ -122,14 +119,12 @@ const delete_user = async (req, res) => {
 //login controller
 
 const logIn = async (req, res) => {
-
   const { email, password } = req.body;
 
   const { messege, status, user } = await validate_login(email, password);
 
   try {
-    
-    if(!user) throw new Error(messege)
+    if (!user) throw new Error(messege);
 
     const token = jwt.sign({ user }, process.env.JWT_SECRET);
 
@@ -142,15 +137,34 @@ const logIn = async (req, res) => {
 
     res.status(status).json(reposne);
   } catch (error) {
-
     console.log(error);
 
     res.status(status).json({
       message: messege,
       error: error.message,
     });
-
   }
 };
 
-module.exports = { create, update, delete_user, logIn };
+const get_workers = async (req, res) => {
+  try {
+    const workers = await User.findAll({
+      attributes: { exclude: ["password"] },
+      where: { type: "Worker" },
+    });
+
+    if (workers.length == 0) throw new Error("there are no workers");
+    res.status(201).json({
+      workers,
+      message: "Workers have been returned successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      message: "error loading Workers",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { create, update, delete_user, logIn, get_workers };

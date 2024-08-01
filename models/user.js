@@ -39,7 +39,7 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING
     },
     type: {
-        type: DataTypes.ENUM('User', 'worker', 'admin'),
+        type: DataTypes.ENUM('User', 'Worker', 'Admin'),
         allowNull:false,
         defaultValue: 'user'
     },

@@ -27,10 +27,10 @@ const create = async (req, res) => {
     try {
         const services = await service_type.findAll();
 
-        if(services.length == 0) throw new Error('there is no sevices')
+        if(services.length == 0) throw new Error('there are no sevices')
         res
           .status(201)
-          .json({ services, message: "services has been returned successfully" });
+          .json({ services, message: "services have been returned successfully" });
       } catch (error) {
         console.log(error);
         res.status(404).json({

@@ -10,8 +10,10 @@ const Service_type = sequelize.define('Service_type', {
     },
     name: {
         type: DataTypes.STRING
-    }
-    
+    },
+    photo:{
+        type: DataTypes.STRING
+    },
 });
 
 module.exports = Service_type;
