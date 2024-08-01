@@ -6,6 +6,13 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 const userRouter = require("./routes/userroute");
+const cors = require("cors");
+
+const corsOption = {
+  origin: '*',
+}; 
+
+app.use(cors(corsOption))
 
 initModels();
 
