@@ -145,7 +145,7 @@ const get_workers = async (req, res) => {
     const workers = await User.findAll({
       attributes: { exclude: ["password"] },
       where: {
-        type: "Worker",
+        type: "Contractor",
         service_type:service_type,
       },
     });

@@ -13,7 +13,7 @@ const Task_photos = sequelize.define('Task_photos', {
         allowNull: false
     },
     type: {
-        type:DataTypes.ENUM('user','worker'),
+        type:DataTypes.ENUM('Home Owner','Contractor'),
         allowNull: false
     }
 });

@@ -39,9 +39,8 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING
     },
     type: {
-        type: DataTypes.ENUM('User', 'Worker', 'Admin'),
+        type: DataTypes.ENUM('Home Owner', 'Contractor', 'Admin'),
         allowNull:false,
-        defaultValue: 'user'
     },
     service_type: {
         type: DataTypes.STRING,
