@@ -2,7 +2,6 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const sendVerEmail = require("../Emailver");
 const crypto = require("crypto");
 const Token = require("../models/tokens");
 const { validate_login } = require("../validations/user_validations");
@@ -38,12 +37,6 @@ const create = async (req, res) => {
       description,
       service_type,
     });
-
-    // //jwt token
-    // const token = jwt.sign(
-    //   {id: user.id,},
-    //   process.env.JWT_SECRET,
-    // );
 
     res
       .status(201)
