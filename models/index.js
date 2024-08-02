@@ -3,22 +3,10 @@ const sequelize = require("../database");
 const User = require("./user");
 const Task = require("./task");
 const Token = require("./tokens");
-const Service_type = require("./service_type");
 const Work_photos = require("./work_photos");
 const Task_photos = require("./task_photos");
 
 const initModels = async () => {
-
-
-  User.belongsTo(Service_type, {
-    foreignKey: "service_type_id", // Foreign key in the User table
-    onDelete: "CASCADE",
-  });
-
-  Service_type.hasMany(User, {
-    foreignKey: "service_type_id",
-    onDelete: "CASCADE",
-  });
 
   User.hasOne(Token, { foreignKey: "user_id", onDelete: "CASCADE" });
 

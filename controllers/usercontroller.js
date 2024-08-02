@@ -21,7 +21,7 @@ const create = async (req, res) => {
       address,
       type,
       description,
-      service_type_id,
+     service_type,
     } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -36,7 +36,7 @@ const create = async (req, res) => {
       address,
       type,
       description,
-      service_type_id,
+      service_type,
     });
 
     // //jwt token
@@ -94,7 +94,6 @@ const update = async (req, res) => {
   }
 };
 
-//delete user
 
 const delete_user = async (req, res) => {
   try {
@@ -148,13 +147,13 @@ const logIn = async (req, res) => {
 
 const get_workers = async (req, res) => {
   try {
-    const { service_type_id } = req.query;
+    const { service_type } = req.query;
 
     const workers = await User.findAll({
       attributes: { exclude: ["password"] },
       where: {
         type: "Worker",
-        ...(service_type_id && { service_type_id }),
+        service_type:service_type,
       },
     });
 

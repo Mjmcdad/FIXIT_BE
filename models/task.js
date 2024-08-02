@@ -27,7 +27,8 @@ const Task = sequelize.define('Task', {
         type: DataTypes.FLOAT
     },
     status: {
-        type: DataTypes.ENUM('pending','in progress', 'finished')
+        type: DataTypes.ENUM('pending','in progress', 'finished'),
+        defaultValue: 'pending'
     },
     review: {
         type: DataTypes.TEXT

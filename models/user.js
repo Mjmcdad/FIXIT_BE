@@ -43,6 +43,10 @@ const User = sequelize.define('User', {
         allowNull:false,
         defaultValue: 'user'
     },
+    service_type: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     description: {
         type: DataTypes.TEXT,
         allowNull: true
