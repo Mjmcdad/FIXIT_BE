@@ -49,7 +49,7 @@ const create = async (req, res) => {
     });
   }
 };
-
+//todo
 const update = async (req, res) => {
   try {
     const {
@@ -87,7 +87,7 @@ const update = async (req, res) => {
   }
 };
 
-
+//todo
 const delete_user = async (req, res) => {
   try {
     const id = req.param;

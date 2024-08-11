@@ -15,10 +15,10 @@ const createTask = async (req, res) => {
       worker_id,
     } = req.body;
 
-    const user_id = await user_validations.validate_token(req.headers.authorization);
-
+    const user_id = await user_validations.validate_token(req.headers.authorization)
     if (!user_id) throw new Error("Invalid token");
 
+    // const  user_id = 1;
     const task = await Task.create({
       title,
       country,
@@ -32,6 +32,12 @@ const createTask = async (req, res) => {
       user_id,
     });
 
+    // // Update the worker's task list
+    // const worker = await Worker.findByPk(worker_id);
+    // if (worker) {
+    //   worker.tasks = [...worker.tasks, task.id]; // Assuming worker.tasks is an array of task IDs
+    //   await worker.save();
+    // }
 
     res.status(201).json({
       task,
@@ -116,10 +122,28 @@ const deleteTask = async (req, res) => {
   }
 };
 
+const getTasksByWorkerId = async (req, res) => {
+  try {
+    const { worker_id } = req.params;
+    const tasks = await Task.findAll({
+      where: { worker_id: worker_id },
+    });
+    if (!tasks.length) throw new Error("No tasks found for this worker");
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      message: "Error fetching tasks for worker",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createTask,
   getAllTasks,
   getTaskById,
   updateTask,
   deleteTask,
+  getTasksByWorkerId,
 };

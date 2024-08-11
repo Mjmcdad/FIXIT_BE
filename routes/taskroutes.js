@@ -10,6 +10,8 @@ router.get('/', taskController.getAllTasks);
 
 // Get a task by ID
 router.get('/:id', taskController.getTaskById);
+//get task by worker id
+router.get('/worker/:worker_id', taskController.getTasksByWorkerId);
 
 // Update a task by ID
 router.put('/:id', taskController.updateTask);
