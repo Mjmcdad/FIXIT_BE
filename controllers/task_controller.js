@@ -139,6 +139,67 @@ const getTasksByWorkerId = async (req, res) => {
   }
 };
 
+// const updateTaskStatus = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const task = await Task.findByPk(id);
+
+//     if (!task) throw new Error("Task not found");
+
+//     if (task.status !== "pending") {
+//       return res.status(400).json({
+//         message: "Task status is not pending",
+//       });
+//     }
+
+//     task.status = "in progress";
+//     await task.save();
+
+//     res.status(200).json({
+//       task,
+//       message: "Task status updated to in progress",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({
+//       message: "Error updating task status",
+//       error: error.message,
+//     });
+//   }
+// };
+
+const acceptTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { price } = req.body;
+
+    const task = await Task.findByPk(id);
+
+    if (!task) throw new Error("Task not found");
+
+    if (task.status !== "pending") {
+      return res.status(400).json({
+        message: "Task status is not pending",
+      });
+    }
+
+    task.status = "in progress";
+    task.price = price;
+    await task.save();
+
+    res.status(200).json({
+      task,
+      message: "Task accepted",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message: "Error accepting task",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createTask,
   getAllTasks,
@@ -146,4 +207,5 @@ module.exports = {
   updateTask,
   deleteTask,
   getTasksByWorkerId,
+  acceptTask,
 };

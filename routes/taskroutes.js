@@ -8,6 +8,9 @@ router.post('/', taskController.createTask);
 // Get all tasks
 router.get('/', taskController.getAllTasks);
 
+//accept task
+router.put('/accept/:id', taskController.acceptTask);
+
 // Get a task by ID
 router.get('/:id', taskController.getTaskById);
 //get task by worker id
