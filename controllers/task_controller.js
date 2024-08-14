@@ -1,5 +1,6 @@
 const Task = require("../models/task");
 const user_validations = require("../validations/user_validations");
+const User = require("../models/user"); 
 
 const createTask = async (req, res) => {
   try {
@@ -32,12 +33,12 @@ const createTask = async (req, res) => {
       user_id,
     });
 
-    // // Update the worker's task list
-    // const worker = await Worker.findByPk(worker_id);
-    // if (worker) {
-    //   worker.tasks = [...worker.tasks, task.id]; // Assuming worker.tasks is an array of task IDs
-    //   await worker.save();
-    // }
+    // Update the worker's task list
+    const worker = await Worker.findByPk(worker_id);
+    if (worker) {
+      worker.tasks = [...worker.tasks, task.id]; // Assuming worker.tasks is an array of task IDs
+      await worker.save();
+    }
 
     res.status(201).json({
       task,
@@ -68,19 +69,20 @@ const getAllTasks = async (req, res) => {
 };
 
 // 
-const getTaskById = async (req, res) => {
-  try {
-    const task = await Task.findByPk(req.params.id);
-    if (!task) throw new Error("Task not found");
-    res.status(200).json(task);
-  } catch (error) {
-    console.log(error);
-    res.status(404).json({
-      message: "Error fetching task",
-      error: error.message,
-    });
-  }
-};
+// const getTaskById = async (req, res) => {
+//   try {
+//     const task = await Task.findByPk(req.params.id);
+//     if (!task) throw new Error("Task not found");
+//     res.status(200).json(task);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(404).json({
+//       message: "Error fetching task",
+//       error: error.message,
+//     });
+//   }
+// };
+
 
 // TODO
 const updateTask = async (req, res) => {
@@ -200,12 +202,31 @@ const acceptTask = async (req, res) => {
   }
 };
 
+const getTaskbyId = async (req, res) => {
+  try {
+    const task = await Task.findByPk(req.params.id, {
+      include: [{
+        model: User,
+        attributes: ['user_name', 'email', 'number'] 
+      }]
+    });
+    if (!task) throw new Error("Task not found");
+    res.status(200).json(task);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      message: "Error fetching task",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createTask,
   getAllTasks,
-  getTaskById,
   updateTask,
   deleteTask,
   getTasksByWorkerId,
   acceptTask,
+  getTaskbyId, // Add this line to export the new function
 };
